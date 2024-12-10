@@ -1,16 +1,16 @@
 source "https://rubygems.org"
 
-# Khai báo gem cần thiết -> Dùng ở tat ca moi truong -> bundle install --without development test
+# Khai báo gem cần thiết -> Dùng ở tất cả môi trường -> bundle install --without development test
 gem "rails", "~> 7.0.0"
 gem "pg", "~> 1.2" # PostgreSQL
 gem "puma", "~> 6.0"
 
-# Khai báo gem chỉ dùng trong môi trường phát triển
+# Khai báo gem chỉ dùng trong môi trường phát triển -> Develop
 group :development do
   gem "pry"
 end
 
-# Khai báo gem chỉ dùng trong môi trường test
+# Khai báo gem chỉ dùng trong môi trường thử nhiệm -> Test
 group :test do
   gem "rspec"
 end
