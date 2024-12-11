@@ -202,11 +202,258 @@
         end
   
         => Kết quả: Xin chao Bui Tuan Tu1
-- Vòng lặp `while`, `until`, `for`, `loop`, `each`, `times`, `upto` và `downto`, Lặp với điều kiện `next`, `break`, `redo`:
+### Vòng lặp `while`, `until`, `for`, `loop`, `each`, `times`, `upto` và `downto`, Lặp với điều kiện `next`, `break`, `redo`:
   - Vòng lặp `while`: 
-  - 
+    - Lặp lại một khối mã khi điều kiện là `true`
+    - Nếu điều kiện trở thành `false`, vòng lặp kết thúc
+  - Vòng lặp `until`:
+    - Lặp lại một khối mã khi điều kiện là `false`
+    - Nếu điều kiện trở thành `true`, vòng lặp kết thúc
+    - Ngược lại của `while`
+  - Vòng lặp `for`:
+    - Lặp qua một phạm vi (range) hoặc tập hợp (collection)
+  - Vòng lớp `loop`:
+    - Vòng lặp vô hạn -> Khi nào sử dụng break thì mới thoát
+    - Cú pháp: 
+               
+          loop do
+            # Mã thực thi
+          end
+
+          Ví dụ: 
+          btt = 'B'
+          loop do
+            puts btt                  // Hiển thị ra btt hiện tại
+            btt = btt + '1'           // Cộng lên 1 độ dài
+            break if btt.length == 5  // Kiểm tra
+          end
+          => Kết quả chỉ là B111 
+          => Nếu muốn hiển thị B1111 thì btt += 1 trước khi in ra
+  
+- Lặp qua các phần tử `each`
+  - Sử dụng cho các tập hợp như mảng `Array`, `Hash`, `Range`
+  - Sử dụng khi muốn duyệt qua từng phần tử trong một tập hợp mà không cần quản lý chỉ số và điều kiện dừng
+  - Ví dụ:
+     
+        btt1 = %w[a b c d e f g] -> Khi 1 mảng toàn chuỗi thì Ruby khuyến nghị sử dụng %w
+
+        btt1.each do |x|
+        puts x+x
+        end 
+- Lặp qua phạm vi: `times`
+  - Lặp một số lần cụ thể
+  - Sử dụng `times` khi:
+    - Số lần lặp biết trước
+    - Ko cần kiểm tra điều kiện phức tạp
+  - Cú pháp:
+  
+        số_lần.times do 
+          # Code ...
+        end
+- Lặp qua chỉ số: `upto`, `downto`
+  - `upto`: Lặp từ một số nhỏ lên đến lớn
+  - `downto`: Lặp từ một số lớn xuống nhỏ
+  - Sử dụng khi lặp qua các giá trị tăng dần hoặc giảm dần
+  - `times` thì bắt đầu từ 0 tới giá trị `số lần`
+  - còn `upto` thì bắt đầu từ `start` tới `end` chứ k phải bắt đầu từ `0`
+  - Cú pháp `upto`:
+    
+        start.upto(end) do | variable |
+          # Code
+        end
+
+- `next`, `break`, `redo` có thể sử dụng ở tất cả vòng lặp 
+  - Rõ hơn về `redo`:
+    - Sử dụng để lặp lại lần lặp hiện tại
 
 
+### Hàm ( Phương Thức )
+- Khác biệt so với các ngôn ngữ khác:
+  - Khi gọi phương thức có thể không cần dấu `()`
+  - Phương thức Ruby tự động trả về giá trị của biểu thức cuối cùng mà không cần `return`
+  - Linh hoạt tham số -> Tham số mặc định, tham số không giới hạn (mảng), tham số từ khóa (hash)
+  - Tích hợp khối (`block`) bằng `yield`
+  - Có thể biểu diễn dưới dạng đối tượng và truyền như tham số
+  - ...
+- Định nghĩa phương thức
+  - Cú pháp cơ bản:
+
+        def tên phương thức(tham số 1, tham số 2)
+          code
+        end
+        
+        Ví dụ
+        def hello(name)
+          "Hello #{name}"
+        end
+        puts hello("Bui Tuan Tu")
+
+- Phương thức không có tham số
+- Phương thức tham số mặc định -> Gán cho tham số 1 giá trị
+- Phương thức tham số linh hoạt `*args`
+  - Sử dụng `*args` để nhận số lượng tham số không xác định
+  - `*args` gói các tham số thành 1 mảng
+  - Cú pháp:
+
+        def method_args(*args)
+          # args là một mảng
+        end
+
+        Ví dụ:
+
+        def hello(*names)
+          names.each do |name|
+            puts "Hello, #{name}"
+          end
+        end
+        hello('BTT', 'BTT1', 'BTT2')
+- Phương thức với từ khóa tham số (**kwargs)
+  - Dấu `:` sau tên tham số chỉ định là tham số từ khóa
+  - `**kwargs` nhận số lượng tham số từ khóa không xác định
+  - Gói các tham số thành 1 hash
+  - Cú pháp
+
+        def method_kwargs(**kwargs)
+          # **kwargs là 1 hash
+        end
 
 
+        Ví dụ:
+        def hello(**names)
+          puts names.inspect
+        end
+        hello(name: 'BTT', age: '20')
+        => Kết quả: {:name=>"BTT", :age=>"20"}
+- Phương thức `yield`
+  - Dùng để thực thi `block` được truyền vào một phương thức
+    - `block` là đoạn nằm giữa `{}` hoặc `do...end` khi gọi phương thức
+  - Nếu gọi `yield` mà ko kiểm tra khi gọi có truyền không thì sẽ gây ra lỗi 
+    - kiểm tra sự tồn tại của block khi truyền vào bằng `block_given?`
+  - Cú pháp:
 
+        def method_yield
+          puts "Hi 111"
+          yield
+          puts "Hi 333"
+        end
+        # Nếu gọi như này thì ko lỗi   
+        method_yield { puts "Hi 222" }
+        # Kết quả là: 
+        Hi 111
+        Hi 222
+        Hi 333
+        # Nếu gọi như này thì phải sửa lại code 
+        method_yield
+        # Thành như này
+        def method_yield
+          puts "Hi 111"
+          yield if block_given?
+          puts "Hi 333"
+        end
+        # Thì khi gọi ko truyền block vào cũng sẽ ko gây ra lỗi
+        # Kết quả là:
+        Hi 111
+        Hi 333
+- Phương thức là đối tượng (Proc, Lambda)
+  - Mục đích:
+    - Lưu trữ, tái sử dụng logic của phương thức
+    - Truyên vào các phương thức khác giống như tham số
+    - Thực thi logic khi cần
+  - Hai cách chính để biểu diễn phương thức dưới dạng đối tượng là `Proc` và `Lambda`
+  - `Proc` là đối tượng trong Ruby sử dụng để lưu đoạn mã và để gọi nhiều lần
+    - `Proc` giống như một hộp mã lưu trữ logic, có thể:
+      - Lưu đoạn mã logic
+      - Truyền nó vào phương thức khác
+      - Gọi lại logic đó khi nào muốn
+    - Cách tạo `Proc`
+      - `my_proc = Proc.new { puts "Hello BTT" }`
+    - Cách gọi `Proc`
+      - `my_proc.call`
+    - Truyền tham số vào `Proc`
+      - `proc_thamso = Proc.new { |thamso| puts "Hello #{thamso}!" }`
+      - `proc_thamso.call("Bui Tuan Tu")`
+    - Truyền `Proc` vào một phương thức
+      
+          def proc_in_method(number, proc1, proc2)
+            if number.is_a?(Integer)
+              proc1.call(number)
+              proc2.call(number)
+            else
+              puts "Khong phai so nguyen"
+            end
+          end
+          my_proc1 = Proc.new { |a| print a*a }
+          my_proc2 = Proc.new { |a| print a*3 }
+          proc_in_method(2, my_proc1, my_proc2)
+          => Ket qua: 46 -> là 4 vs 6 bởi vì dùng print ( không xuống dòng )
+  - `Lambda` cũng là đối tượng lưu đoạn mã giống như `Proc` nhưng nghiêm ngặt hơn
+    - Kiểm tra số lượng tham số chặt chẽ
+    - Hành vi return khác với `Proc`
+      - Khác như sau:
+      
+            def proc_123
+              my_proc = Proc.new { return "Proc: Thoát khỏi phương thức luôn" }
+              my_proc.call
+              "Không chạy ở đây nữa"
+            end
+
+            def lambda_123
+              my_lambda = -> { return "Lambda: Thoát khỏi đây thôi, tiếp tục ở phương thức" }
+              puts my_lambda.call
+              "Tiep tuc ne"
+            end
+
+            puts proc_123
+            puts lambda_123
+    - Cách tạo `Lambda`
+      - `my_lambda = lambda { puts "Hello BTT" }`
+      - `my_lambda1 = -> { puts "Hello BTT1" }`
+    - Cách gọi `Lambda`
+      - `my_lambda.call`
+    - Truyền tham số vào `lambda`
+      - `my_lambda2 = -> (a,b) {puts a*b}`
+    - Nghiên cứu rõ hơn vụ chặt chẽ hơn về số lượng tham số của `lambda` vs `proc`
+      - Qua ví dụ này:
+
+            my_proc = Proc.new { |a, b| puts "a = #{a}, b = #{b}" }
+            my_proc.call(2) -> Không lỗi -> a = 2, b =
+            my_lambda2 = ->(a,b) {puts "a = #{a}, b = #{b}" }
+            my_lambda2.call(2) -> Lỗi -> ạdhakjdhkjadhkj
+
+- Phương thức thuộc lớp hoặc module
+  - Phương thức `thực thể`: Được gọi trên các đối tượng của lớp
+    - Được định nghĩa trong một lớp và được gọi trên các đối tượng của lớp đó
+    - Khi tạo 1 đối tượng từ lớp bằng `new` -> Có thể gọi các phương thức `thực thể` trên đối tượng đó
+    - Định nghĩa phương thức `không sử dụng` `self`
+    - Chỉ có thể gọi từ một đối tượng của lớp
+    - Ví dụ:
+    
+          class BTT
+            def add(a,b)
+              a + b
+            end
+          end
+          
+          btt = BTT.new
+          puts btt.add(2,3) -> 5
+
+  - Phương thức `lớp`: Được gọi trực tiếp trên lớp, sử dụng `self`
+    - Được định nghĩa để gọi trực tiếp trên lớp, không cần `new` tạo đối tượng
+    - Khi định nghĩa phương thức `phải sử dụng` `self` trước tên phương thức
+    - Định nghĩa phương thức với `def self.method_name`
+    - Không cần tạo đối tượng mà gọi trực tiếp từ lớp
+    - Ví dụ:
+
+          class BTT
+            def self.add(a,b)
+              a + b
+            end
+          end
+          
+          btt = BTT.add(2,3)
+          puts btt -> 5
+  - Khi nào sử dụng `instance method` và `class method`
+    - Sử dụng `instance method` khi cần làm việc với dữ liệu liên quan đến đối tượng cụ thể
+    - Sử dụng `class method` khi logic không liên quan tới một đối tượng cụ thể, mà áp dụng cho cả lớp
+### Class và Object
+- 
